@@ -1,41 +1,106 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
+void main(List<String> args) {
+  runApp(const Myapp()); //-> faço minha chamada principal
 }
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class Myapp extends StatelessWidget {
+  const Myapp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: homeWidget(),
+      home: Homewidget(),
     );
   }
 }
 
-class homeWidget extends StatelessWidget {
-  const homeWidget({Key? key}) : super(key: key);
+class Homewidget extends StatelessWidget {
+  const Homewidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-       title:const Text('Posto Ipiranga'),
+        title: Text('New app'),
       ),
-      body:const Center(
-        child: Text(
-          'Deus é fiel',
-          textDirection: TextDirection.rtl,
+      body: TextField(
+        style: TextStyle(
+          color: Colors.blue
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
+        child: Icon(Icons.add_a_photo),
         onPressed: () => {
-          print('Clicou')
         },
-      ),
+        ),
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// void main() {
+//   runApp(const MyApp());
+// }
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return const MaterialApp(
+//       home: homeWidget(),
+//     );
+//   }
+// }
+
+// class homeWidget extends StatelessWidget {
+//   const homeWidget({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//        title:const Text('Posto Ipiranga'),
+//       ),
+//       body:const Center(
+//         child: Text(
+//           'Deus é fiel',
+//           textDirection: TextDirection.rtl,
+//         ),
+//       ),
+//       floatingActionButton: FloatingActionButton(
+//         child: const Icon(Icons.add),
+//         onPressed: () => {
+//           print('Clicou')
+//         },
+//       ),
+//     );
+//   }
+// }
