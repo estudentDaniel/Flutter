@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 void main(List<String> args) {
   runApp(const Myapp()); //-> faço minha chamada principal
 }
+
 class Myapp extends StatelessWidget {
   const Myapp({Key? key}) : super(key: key);
 
@@ -23,16 +24,24 @@ class Homewidget extends StatelessWidget {
       appBar: AppBar(
         title: Text('New app'),
       ),
-      body: TextField(
-        style: TextStyle(
-          color: Colors.blue
-        ),
-      ),
+      body: const Padding(
+          padding: EdgeInsets.only(left: 15, right: 15, bottom: 25, top: 155),
+          child: TextField(
+            
+            decoration: InputDecoration(
+              prefixIcon: Icon(
+                Icons.money_outlined,
+                color: Color.fromARGB(255, 59, 78, 242),
+              ),
+            ),
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          )),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add_a_photo),
-        onPressed: () => {
-        },
-        ),
+        onPressed: () => {},
+      ),
     );
   }
 }
