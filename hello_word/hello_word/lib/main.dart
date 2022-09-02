@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:hello_word/tela.dart';
 
 void main() {
-  runApp(const hello_word());
+  runApp(
+    MaterialApp(
+      title: "Hello Word",
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: TelaHelloWorld(),
+    ),
+  );
 }
 
-class hello_word extends StatelessWidget {
-  const hello_word({Key? key}) : super(key: key);
-
+class HomePage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
     throw UnimplementedError();
   }
 }
