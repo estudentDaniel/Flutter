@@ -8,6 +8,10 @@ void main() {
     theme: ThemeData(
       primarySwatch: Colors.blue,
     ),
-    home: Cadastro(),
+    initialRoute: "/",
+    routes: {
+      "/": (context) => Home_screen(),
+      "/cadastro": (context) => Cadastro(),
+    },
   ));
 }

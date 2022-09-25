@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:lista_tarefas/home_screnn.dart';
+import 'package:lista_tarefas/tarefa.dart';
 
 class Cadastro extends StatefulWidget {
   Cadastro({super.key});
@@ -68,8 +69,10 @@ class _CadastroState extends State<Cadastro> {
                     width: 150,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: Navigator.of(context).push(
-                          MaterialPageRoute(builder: () => Home_screen())),
+                      onPressed: () {
+                        Task tarefa = new Task(titulo.text);
+                        Navigator.pop(context, tarefa);
+                      },
                       child: Text("Adicionar"),
                     ),
                   ),
