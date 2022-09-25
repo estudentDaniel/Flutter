@@ -59,7 +59,7 @@ class _CadastroState extends State<Cadastro> {
                   labelStyle: TextStyle(fontSize: 20),
                 ),
               ),
-              Padding(padding: EdgeInsets.all()),
+              Padding(padding: EdgeInsets.all(8)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
