@@ -23,22 +23,52 @@ class _Home_screenState extends State<Home_screen> {
       body: ListView.separated(
           itemBuilder: (context, position) {
             Task item = _list[position];
-            return ListTile(
-              title: Text(
-                _list[position].text,
-                style: TextStyle(
-                  color: item.done ? Colors.green : Colors.black,
-                  decoration: item.done
-                      ? TextDecoration.lineThrough
-                      : TextDecoration.none,
+            return Dismissible(
+                key: UniqueKey(),
+                background: Container(
+                  color: Colors.green,
+                  child: const Align(
+                    alignment: Alignment(-0.9, 0.0),
+                    child: Icon(
+                      Icons.edit,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-              ),
-              onTap: () {
-                setState(() {
-                  item.done = !item.done;
-                });
-              },
-            );
+                secondaryBackground: Container(
+                  color: Colors.red,
+                  child: const Align(
+                    alignment: Alignment(0.9, 0.0),
+                    child: Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                onDismissed: (direction) {
+                  if (direction == DismissDirection.endToStart) {
+                    setState(() {
+                      _list.removeAt(position);
+                      _list.insert(position, item);
+                    });
+                  }
+                },
+                child: ListTile(
+                  title: Text(
+                    _list[position].text,
+                    style: TextStyle(
+                      color: item.done ? Colors.green : Colors.black,
+                      decoration: item.done
+                          ? TextDecoration.lineThrough
+                          : TextDecoration.none,
+                    ),
+                  ),
+                  onTap: () {
+                    setState(() {
+                      item.done = !item.done;
+                    });
+                  },
+                ));
           },
           separatorBuilder: (context, index) => Divider(),
           itemCount: _list.length),
