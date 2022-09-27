@@ -5,8 +5,9 @@ import 'package:lista_tarefas/home_screnn.dart';
 import 'package:lista_tarefas/tarefa.dart';
 
 class Cadastro extends StatefulWidget {
-  Cadastro({super.key});
-
+  // Cadastro({super.key});
+  Task? task;
+  Cadastro({this.task});
   @override
   State<Cadastro> createState() => _CadastroState();
 }
@@ -15,10 +16,13 @@ class _CadastroState extends State<Cadastro> {
   final TextEditingController titulo = new TextEditingController();
   final TextEditingController descricao = new TextEditingController();
   String nome = "";
-  void _functionCadastro() {
-    setState(() {
-      nome = titulo.text.toString();
-    });
+  void initState() {
+    super.initState();
+    if (widget.task != null) {
+      setState(() {
+        titulo.text = widget.task!.text;
+      });
+    }
   }
 
   @override
@@ -47,19 +51,19 @@ class _CadastroState extends State<Cadastro> {
                   labelStyle: TextStyle(fontSize: 20),
                 ),
               ),
-              Padding(padding: EdgeInsets.all(8)),
-              TextFormField(
-                decoration: const InputDecoration(
-                  label: Text(
-                    "Descrição",
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  labelStyle: TextStyle(fontSize: 20),
-                ),
-              ),
+              // Padding(padding: EdgeInsets.all(8)),
+              // TextFormField(
+              //   decoration: const InputDecoration(
+              //     label: Text(
+              //       "Descrição",
+              //       style: TextStyle(
+              //         fontSize: 12,
+              //         color: Colors.blue,
+              //       ),
+              //     ),
+              //     labelStyle: TextStyle(fontSize: 20),
+              //   ),
+              // ),
               Padding(padding: EdgeInsets.all(8)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -81,7 +85,14 @@ class _CadastroState extends State<Cadastro> {
                     width: 150,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () => {},
+                      onPressed: () => {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) =>
+                                    Home_screen())) //volta para tela anterior
+                            )
+                      },
                       child: Text("Cancelar"),
                       style: ButtonStyle(
                         backgroundColor:
@@ -91,11 +102,11 @@ class _CadastroState extends State<Cadastro> {
                   ),
                 ],
               ),
-              Container(
-                child: Center(
-                  child: Text("Valor: $nome"),
-                ),
-              )
+              // Container(
+              //   child: Center(
+              //     child: Text("Valor: $nome"), //testando setState
+              //   ),
+              // )
             ],
           ),
         ),

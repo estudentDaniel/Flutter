@@ -24,51 +24,81 @@ class _Home_screenState extends State<Home_screen> {
           itemBuilder: (context, position) {
             Task item = _list[position];
             return Dismissible(
-                key: UniqueKey(),
-                background: Container(
-                  color: Colors.green,
-                  child: const Align(
-                    alignment: Alignment(-0.9, 0.0),
-                    child: Icon(
-                      Icons.edit,
-                      color: Colors.white,
-                    ),
+              key: UniqueKey(),
+              background: Container(
+                color: Colors.red,
+                child: const Align(
+                  alignment: Alignment(-0.9, 0.0),
+                  child: Icon(
+                    Icons.delete,
+                    color: Colors.white,
                   ),
                 ),
-                secondaryBackground: Container(
-                  color: Colors.red,
-                  child: const Align(
-                    alignment: Alignment(0.9, 0.0),
-                    child: Icon(
-                      Icons.delete,
-                      color: Colors.white,
-                    ),
+              ),
+              secondaryBackground: Container(
+                color: Colors.blue,
+                child: const Align(
+                  alignment: Alignment(0.9, 0.0),
+                  child: Icon(
+                    Icons.edit,
+                    color: Colors.white,
                   ),
                 ),
-                onDismissed: (direction) {
-                  if (direction == DismissDirection.endToStart) {
+              ),
+              onDismissed: (direction) {
+                if (direction == DismissDirection.endToStart) {
+                  setState(() {
+                    _list.removeAt(position);
+                    _list.insert(position, item);
+                  });
+                }
+              },
+              child: ListTile(
+                title: Text(
+                  _list[position].text,
+                  style: TextStyle(
+                    color: item.done ? Colors.green : Colors.black,
+                    decoration: item.done
+                        ? TextDecoration.lineThrough
+                        : TextDecoration.none,
+                  ),
+                ),
+                onTap: () {
+                  setState(() {
+                    item.done = !item.done;
+                  });
+                },
+                onLongPress: () async {
+                  Task edit = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Cadastro(task: item)));
+                  if (edit != null) {
                     setState(() {
                       _list.removeAt(position);
-                      _list.insert(position, item);
+                      _list.insert(position, edit);
                     });
                   }
                 },
-                child: ListTile(
-                  title: Text(
-                    _list[position].text,
-                    style: TextStyle(
-                      color: item.done ? Colors.green : Colors.black,
-                      decoration: item.done
-                          ? TextDecoration.lineThrough
-                          : TextDecoration.none,
-                    ),
-                  ),
-                  onTap: () {
+              ),
+              confirmDismiss: (direction) async {
+                if (direction == DismissDirection.endToStart) {
+                  Task edit = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Cadastro(task: item)));
+                  if (edit != null) {
                     setState(() {
-                      item.done = !item.done;
+                      _list.removeAt(position);
+                      _list.insert(position, edit);
                     });
-                  },
-                ));
+                  }
+                  return false;
+                } else if (direction == DismissDirection.endToStart) {
+                  return true;
+                }
+              },
+            );
           },
           separatorBuilder: (context, index) => Divider(),
           itemCount: _list.length),
