@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+//import 'package:image/image.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:lista_tarefas/home_screnn.dart';
@@ -37,20 +38,22 @@ class _CadastroState extends State<Cadastro> {
         child: Form(
           child: Column(
             children: [
-              Padding(padding: EdgeInsets.all(8)),
-              TextFormField(
-                controller: titulo,
-                decoration: const InputDecoration(
-                  label: Text(
-                    "Titulo",
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 12,
+              Container(
+                child: TextFormField(
+                  controller: titulo,
+                  decoration: const InputDecoration(
+                    label: Text(
+                      "Titulo",
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 12,
+                      ),
                     ),
+                    labelStyle: TextStyle(fontSize: 20),
                   ),
-                  labelStyle: TextStyle(fontSize: 20),
                 ),
               ),
+
               // Padding(padding: EdgeInsets.all(8)),
               // TextFormField(
               //   decoration: const InputDecoration(
