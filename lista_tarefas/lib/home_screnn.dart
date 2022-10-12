@@ -46,10 +46,9 @@ class _Home_screenState extends State<Home_screen> {
                 ),
               ),
               onDismissed: (direction) {
-                if (direction == DismissDirection.endToStart) {
+                if (direction == DismissDirection.startToEnd) {
                   setState(() {
                     _list.removeAt(position);
-                    _list.insert(position, item);
                   });
                 }
               },
@@ -69,10 +68,8 @@ class _Home_screenState extends State<Home_screen> {
                   });
                 },
                 onLongPress: () async {
-                  Task edit = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Cadastro(task: item)));
+                  Task edit = await Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Cadastro()));
                   if (edit != null) {
                     setState(() {
                       _list.removeAt(position);
@@ -94,7 +91,7 @@ class _Home_screenState extends State<Home_screen> {
                     });
                   }
                   return false;
-                } else if (direction == DismissDirection.endToStart) {
+                } else if (direction == DismissDirection.startToEnd) {
                   return true;
                 }
               },
