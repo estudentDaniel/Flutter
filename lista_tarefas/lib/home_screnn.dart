@@ -60,15 +60,12 @@ class _Home_screenState extends State<Home_screen> {
                   ),
                 ),
               ),
-              onDismissed: (direction) async {
+              onDismissed: (direction) {
                 if (direction == DismissDirection.endToStart) {
-                  int? qtd = await _taksHelper.delete(item);
-                  if (qtd != null && qtd > 0) {
-                    setState(() {
-                      _list.removeAt(position);
-                      _list.insert(position, item);
-                    });
-                  }
+                  setState(() {
+                    _list.removeAt(position);
+                    _list.insert(position, item);
+                  });
                 }
               },
               child: ListTile(
@@ -99,11 +96,12 @@ class _Home_screenState extends State<Home_screen> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => Cadastro(task: item)));
-
-                  setState(() {
-                    _list.removeAt(position);
-                    _list.insert(position, edit);
-                  });
+                  if (edit != null) {
+                    setState(() {
+                      _list.removeAt(position);
+                      _list.insert(position, edit);
+                    });
+                  }
                 },
               ),
               confirmDismiss: (direction) async {
@@ -123,7 +121,7 @@ class _Home_screenState extends State<Home_screen> {
                   }
 
                   return false;
-                } else if (direction == DismissDirection.endToStart) {
+                } else if (direction == DismissDirection.startToEnd) {
                   return true;
                 }
               },
