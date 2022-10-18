@@ -1,0 +1,89 @@
+{
+    // Use o IntelliSense para saber mais sobre os atributos possíveis.
+    // Focalizar para exibir as descrições dos atributos existentes.
+    // Para obter mais informações, acesse: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+    
+        {
+            "name": "lista_tarefas",
+            "cwd": "lista_tarefas",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "lista_tarefas (profile mode)",
+            "cwd": "lista_tarefas",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "lista_tarefas (release mode)",
+            "cwd": "lista_tarefas",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "vendas_plus",
+            "cwd": "vendas_plus",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "vendas_plus (profile mode)",
+            "cwd": "vendas_plus",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "vendas_plus (release mode)",
+            "cwd": "vendas_plus",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "app_imc",
+            "cwd": "hello_word\\app_imc",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "app_imc (profile mode)",
+            "cwd": "hello_word\\app_imc",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "app_imc (release mode)",
+            "cwd": "hello_word\\app_imc",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "calcula_imc",
+            "cwd": "Imc\\calcula_imc",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "calcula_imc (profile mode)",
+            "cwd": "Imc\\calcula_imc",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "calcula_imc (release mode)",
+            "cwd": "Imc\\calcula_imc",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
