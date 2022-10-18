@@ -73,9 +73,6 @@ class _Home_screenState extends State<Home_screen> {
                     ? CircleAvatar(
                         backgroundImage: FileImage(File(item.image!)),
                       )
-                    // ? CircleAvatar(
-                    //     child: ClipOval(child: FileImage(File(item.image))),
-                    //   )
                     : SizedBox(),
                 title: Text(
                   _list[position].text!,
@@ -141,10 +138,6 @@ class _Home_screenState extends State<Home_screen> {
               });
             }
           }
-          //
-          //if (taskSaved != null) {
-
-          //  }
         },
         child: Icon(Icons.add),
       ),
