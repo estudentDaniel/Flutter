@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:lista_tarefas/cadastro.dart';
 import 'package:lista_tarefas/tarefa.dart';
+import 'taksHelper.dart';
 
 class Home_screen extends StatefulWidget {
   Home_screen({super.key});
@@ -13,6 +16,18 @@ class Home_screen extends StatefulWidget {
 
 class _Home_screenState extends State<Home_screen> {
   List<Task> _list = List.empty(growable: true);
+  TaksHelper _taksHelper = TaksHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    _taksHelper.getAll().then((data) => {
+          setState(() {
+            _list = data;
+          })
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,15 +61,21 @@ class _Home_screenState extends State<Home_screen> {
                 ),
               ),
               onDismissed: (direction) {
-                if (direction == DismissDirection.startToEnd) {
+                if (direction == DismissDirection.endToStart) {
                   setState(() {
                     _list.removeAt(position);
+                    _list.insert(position, item);
                   });
                 }
               },
               child: ListTile(
+                leading: item.image != null
+                    ? CircleAvatar(
+                        backgroundImage: FileImage(File(item.image!)),
+                      )
+                    : SizedBox(),
                 title: Text(
-                  _list[position].text,
+                  _list[position].text!,
                   style: TextStyle(
                     color: item.done ? Colors.green : Colors.black,
                     decoration: item.done
@@ -62,24 +83,12 @@ class _Home_screenState extends State<Home_screen> {
                         : TextDecoration.none,
                   ),
                 ),
-                onTap: () {
+                onTap: () async {
                   setState(() {
                     item.done = !item.done;
                   });
                 },
                 onLongPress: () async {
-                  Task edit = await Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Cadastro()));
-                  if (edit != null) {
-                    setState(() {
-                      _list.removeAt(position);
-                      _list.insert(position, edit);
-                    });
-                  }
-                },
-              ),
-              confirmDismiss: (direction) async {
-                if (direction == DismissDirection.endToStart) {
                   Task edit = await Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -90,6 +99,24 @@ class _Home_screenState extends State<Home_screen> {
                       _list.insert(position, edit);
                     });
                   }
+                },
+              ),
+              confirmDismiss: (direction) async {
+                if (direction == DismissDirection.endToStart) {
+                  Task? edit = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Cadastro(task: item)));
+                  if (edit != null) {
+                    int? qtd = await _taksHelper.edit(edit);
+                    if (qtd != null && qtd > 0) {
+                      setState(() {
+                        _list.removeAt(position);
+                        _list.insert(position, edit);
+                      });
+                    }
+                  }
+
                   return false;
                 } else if (direction == DismissDirection.startToEnd) {
                   return true;
@@ -101,11 +128,16 @@ class _Home_screenState extends State<Home_screen> {
           itemCount: _list.length),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          Task todo = await Navigator.push(
+          Task? todo = await Navigator.push(
               context, MaterialPageRoute(builder: (context) => Cadastro()));
-          setState(() {
-            _list.add(todo);
-          });
+          if (todo != null) {
+            Task? taskSaved = await _taksHelper.save(todo);
+            if (taskSaved != null) {
+              setState(() {
+                _list.add(taskSaved);
+              });
+            }
+          }
         },
         child: Icon(Icons.add),
       ),
