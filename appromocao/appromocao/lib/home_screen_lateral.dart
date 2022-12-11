@@ -8,9 +8,10 @@ class HomeScreenLateral extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+        child: Scaffold(
       drawer: TaskDrawer(),
       appBar: AppBar(),
-    );
+    ));
   }
 }
