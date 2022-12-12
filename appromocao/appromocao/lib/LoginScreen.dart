@@ -76,7 +76,9 @@ class LoginScreen extends StatelessWidget {
                     child: Text(
                       "Entrar",
                     ),
-                    onPressed: (() {}),
+                    onPressed: (() {
+                      print("entart");
+                    }),
                   ),
                 ),
                 const Padding(padding: EdgeInsets.all(8)),
@@ -98,7 +100,7 @@ class LoginScreen extends StatelessWidget {
                 const Padding(padding: EdgeInsets.all(8)),
                 GestureDetector(
                   child: const Text(
-                    "Esqueceu sua senha?",
+                    "Esqueceu sua senhaa?",
                     style: TextStyle(color: Color.fromARGB(190, 223, 19, 39)),
                   ),
                   onTap: (() {}),

@@ -1,13 +1,8 @@
-import 'dart:js_util';
-
 import 'package:appromocao/signup_store.dart';
 import 'package:appromocao/textfiled.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/physics.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
 
 class SignupScreen extends StatelessWidget {
   late SignupStore signupStore = SignupStore();
@@ -109,12 +104,13 @@ class SignupScreen extends StatelessWidget {
                     return Container(
                       height: 40,
                       child: ElevatedButton(
-                          child: signupStore.loading
-                              ? CircularProgressIndicator()
-                              : Text(
-                                  "Cadastrar",
-                                ),
-                          onPressed: signupStore.signupPressed),
+                          child: Text(
+                            "Cadastrar",
+                          ),
+                          onPressed: () {
+                            // signupStore.signupPressed;
+                            print("teste");
+                          }),
                     );
                   }),
                   const Padding(padding: EdgeInsets.all(8)),

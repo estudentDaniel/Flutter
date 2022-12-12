@@ -13,6 +13,6 @@ class bancoContoller {
     parseUser.set(KeyUserType, user.type.index);
 
     // await parseUser.signUp();
-    await parseUser.save();
+    await parseUser.signUp();
   }
 }
