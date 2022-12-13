@@ -59,7 +59,6 @@ class SignupScreen extends StatelessWidget {
                     ),
                     Observer(builder: (_) {
                       return TextField(
-                        // enabled: !signupStore.loading,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'Exemplo: joao@gmail.com',
