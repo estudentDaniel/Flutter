@@ -1,5 +1,5 @@
 // ignore_for_file: library_private_types_in_public_api
-
+import 'package:appromocao/model/User.dart';
 import 'package:appromocao/bancoContoller.dart';
 import 'package:appromocao/model/User.dart';
 import 'package:get_it/get_it.dart';
@@ -13,6 +13,8 @@ abstract class _SignupStore with Store {
   @observable
   String name = 'daniel';
 
+  get type => type;
+
   @action
   void setName(String value) => name = value;
 
@@ -21,8 +23,6 @@ abstract class _SignupStore with Store {
   String get nameError {
     if (name == null || nameValid)
       return 'null';
-    else if (name.isEmpty)
-      return 'Campo obrigatório';
     else
       return 'Nome muito curto';
   }
@@ -38,8 +38,6 @@ abstract class _SignupStore with Store {
   String get emailError {
     if (email == null || emailValid)
       return 'null';
-    else if (email.isEmpty)
-      return 'Campo obrigatório';
     else
       return 'E-mail inválido';
   }
@@ -55,8 +53,6 @@ abstract class _SignupStore with Store {
   String get pass1Error {
     if (senha == null || pass1Valid)
       return 'null';
-    else if (senha.isEmpty)
-      return 'Campo obrigatório';
     else
       return 'Senha muito curta';
   }
@@ -87,17 +83,19 @@ abstract class _SignupStore with Store {
 
   @observable
   String? error;
-
+  String id = '';
   @action
-  Future<void> _signUp() async {
+  Future<dynamic> _signUp() async {
     loading = true;
 
-    final user = User(name: name, email: email, senha: senha);
+    final user =
+        User(type: type, senha: senha, id: id, name: name, email: email);
 
     final resultUser = await bancoContoller().signUp(user);
+    print(resultUser);
     //GetIt.I<UserManagerStore>().setUser(resultUser);
 
-    loading = false;
+    //loading = false;
   }
 }
 
