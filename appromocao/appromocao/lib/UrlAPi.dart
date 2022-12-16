@@ -1,1 +1,1 @@
-final String URl = 'http://161.35.113.202/';
+final String URl = 'http://161.35.113.202';

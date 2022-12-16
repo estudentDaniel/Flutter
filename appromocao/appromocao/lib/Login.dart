@@ -7,27 +7,27 @@ import 'package:http/http.dart' as http;
 import 'UrlAPi.dart' as apiUrl;
 
 class Login extends StatelessWidget {
-  final userController = TextEditingController(); //okk
+  final userController = TextEditingController();
   final passwordController = TextEditingController();
 
   Future<bool> entrar() async {
-    final SharedPreferences sherePreferences =
-        await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
     var urlApi = apiUrl.URl;
-    var api = Uri.parse('${urlApi}login'); //login
+    var api = Uri.parse('${urlApi}/login');
     var response = await http.post(
       api,
       body: {
-        'email': userController.text, //ok
-        'senha': passwordController.text, //ok
+        'email': userController.text,
+        'senha': passwordController.text,
       },
     );
     if (response.statusCode == 200) {
-      String token = jsonDecode(response.body); //o token vem do marcel
-      //sherePreferences.getString('token);//erro
+      var res = jsonDecode(response.body);
+      prefs.setString('token', res['token']);
       return true;
     } else {
-      print("erro esta aqui: $jsonDecode(response.body)");
+      print(jsonDecode(response.body));
       return false;
     }
   }
@@ -85,14 +85,15 @@ class Login extends StatelessWidget {
                               color: Color.fromARGB(255, 143, 143, 143),
                             ),
                             ElevatedButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const Anuncio()));
-                                  if (entrar != null) {
-                                    print('ok ');
+                                onPressed: () async {
+                                  bool response = await entrar();
+
+                                  if (response) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Anuncio()));
                                   } else {
                                     print('errado');
                                   }
