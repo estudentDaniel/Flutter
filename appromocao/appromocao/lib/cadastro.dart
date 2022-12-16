@@ -20,6 +20,14 @@ class _CadastroState extends State<Cadastro> {
   String phone = '';
   String password = '';
 
+  void info() async {
+    setState(() async {
+      user = (userController.text);
+      phone = (phoneController.text);
+      password = (passwordController.text);
+    });
+  }
+
   Future<Object> postar() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var urlApi = apiUrl.URl;
@@ -38,14 +46,6 @@ class _CadastroState extends State<Cadastro> {
       print(jsonDecode(response.body));
       return false;
     }
-  }
-
-  void info() async {
-    setState(() async {
-      user = (userController.text);
-      phone = (phoneController.text);
-      password = (passwordController.text);
-    });
   }
 
   @override
