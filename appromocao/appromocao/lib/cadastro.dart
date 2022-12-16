@@ -33,9 +33,6 @@ class _CadastroState extends State<Cadastro> {
       },
     );
     if (response.statusCode == 200) {
-      await sharedPreferences.setString(
-          'token', "${jsonDecode(response.body)['token']}");
-      print(jsonDecode(response.body)['token']);
       return response;
     } else {
       print(jsonDecode(response.body));
