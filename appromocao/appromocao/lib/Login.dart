@@ -22,7 +22,8 @@ class Login extends StatelessWidget {
         'senha': passwordController.text,
       },
     );
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
+      String token = jsonDecode(response.body);
       return true;
     } else {
       print(jsonDecode(response.body));
@@ -90,7 +91,7 @@ class Login extends StatelessWidget {
                                           builder: (context) =>
                                               const Anuncio()));
                                   if (entrar != null) {
-                                    print('ok');
+                                    print('ok ');
                                   } else {
                                     print('errado');
                                   }

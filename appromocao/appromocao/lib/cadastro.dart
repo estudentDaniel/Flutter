@@ -68,7 +68,7 @@ class _CadastroState extends State<Cadastro> {
                           controller: userController,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
-                            hintText: 'Exemplo: Daniel de castro',
+                            hintText: 'Exemplo: Daniel',
                             isDense: true,
                           ),
                           //onChanged:,
@@ -94,7 +94,7 @@ class _CadastroState extends State<Cadastro> {
                           controller: passwordController,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
-                            hintText: 'senha: daniel@123',
+                            hintText: 'senha:',
                             isDense: true,
                           ),
                           keyboardType: TextInputType.text,
