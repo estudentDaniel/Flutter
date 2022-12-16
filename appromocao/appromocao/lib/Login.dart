@@ -7,26 +7,27 @@ import 'package:http/http.dart' as http;
 import 'UrlAPi.dart' as apiUrl;
 
 class Login extends StatelessWidget {
-  final userController = TextEditingController();
+  final userController = TextEditingController(); //okk
   final passwordController = TextEditingController();
 
   Future<bool> entrar() async {
     final SharedPreferences sherePreferences =
         await SharedPreferences.getInstance();
     var urlApi = apiUrl.URl;
-    var api = Uri.parse('${urlApi}/login');
+    var api = Uri.parse('${urlApi}login'); //login
     var response = await http.post(
       api,
       body: {
-        'email': userController.text,
-        'senha': passwordController.text,
+        'email': userController.text, //ok
+        'senha': passwordController.text, //ok
       },
     );
     if (response.statusCode == 200) {
-      String token = jsonDecode(response.body);
+      String token = jsonDecode(response.body); //o token vem do marcel
+      //sherePreferences.getString('token);//erro
       return true;
     } else {
-      print(jsonDecode(response.body));
+      print("erro esta aqui: $jsonDecode(response.body)");
       return false;
     }
   }
