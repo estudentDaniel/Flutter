@@ -14,7 +14,11 @@ class _AnuncioState extends State<Anuncio> {
       appBar: AppBar(
         title: Text("Anuncio"),
       ),
-      body: ListView(),
+      body: ListView.separated(
+        itemBuilder: (context, index) {},
+        separatorBuilder: () => null(),
+        itemCount: 0,
+      ),
     );
   }
 }

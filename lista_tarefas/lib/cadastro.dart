@@ -4,10 +4,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:lista_tarefas/home_screnn.dart';
 import 'package:lista_tarefas/tarefa.dart';
-import 'package:path_provider/path_provider.dart';
 
 class Cadastro extends StatefulWidget {
   // Cadastro({super.key});

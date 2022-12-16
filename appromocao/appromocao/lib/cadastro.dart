@@ -14,34 +14,27 @@ class Cadastro extends StatefulWidget {
 
 class _CadastroState extends State<Cadastro> {
   final TextEditingController userController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   String user = '';
   String phone = '';
   String password = '';
 
-  void info() async {
-    setState(() async {
-      user = (userController.text);
-      phone = (phoneController.text);
-      password = (passwordController.text);
-    });
-  }
-
-  Future<Object> postar() async {
+  Future<bool> postar() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var urlApi = apiUrl.URl;
-    var api = Uri.parse('${urlApi}signup');
+    var api = Uri.parse('${urlApi}/usuario');
     var response = await http.post(
       api,
       body: {
         'nome': userController.text,
-        'telefone': phoneController.text,
+        'telefone': emailController.text,
+        'email': emailController.text,
         'senha': passwordController.text,
       },
     );
-    if (response.statusCode == 200) {
-      return response;
+    if (response.statusCode == 201) {
+      return true;
     } else {
       print(jsonDecode(response.body));
       return false;
@@ -80,14 +73,14 @@ class _CadastroState extends State<Cadastro> {
                           ),
                           //onChanged:,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 16,
                         ),
                         TextField(
-                          controller: phoneController,
-                          decoration: InputDecoration(
+                          controller: emailController,
+                          decoration: const InputDecoration(
                             border: OutlineInputBorder(),
-                            hintText: 'telefone:',
+                            hintText: 'E-mail:',
                             isDense: true,
                           ),
                           keyboardType: TextInputType.phone,
@@ -99,7 +92,7 @@ class _CadastroState extends State<Cadastro> {
                         ),
                         TextField(
                           controller: passwordController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'senha: daniel@123',
                             isDense: true,
@@ -111,22 +104,21 @@ class _CadastroState extends State<Cadastro> {
                         const SizedBox(
                           height: 16,
                         ),
-                        Divider(
+                        const Divider(
                           color: Color.fromARGB(255, 143, 143, 143),
                         ),
                         ElevatedButton(
                             onPressed: () {
-                              if (postar != null) {
-                                print("ok");
+                              if (postar() != null) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Login()));
                               } else {
                                 print("errado");
                               }
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => Login()));
                             },
-                            child: Text("Entrar"))
+                            child: const Text("Entrar"))
                       ],
                     ),
                   ))),

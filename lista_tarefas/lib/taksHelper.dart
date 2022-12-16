@@ -1,6 +1,4 @@
 import 'package:lista_tarefas/database.dart';
-import 'package:sqflite/sqlite_api.dart';
-
 import 'tarefa.dart';
 
 class TaksHelper {

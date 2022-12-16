@@ -1,6 +1,35 @@
+import 'dart:convert';
+
+import 'package:appromocao/anuncios.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'UrlAPi.dart' as apiUrl;
 
 class Login extends StatelessWidget {
+  final userController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  Future<bool> entrar() async {
+    final SharedPreferences sherePreferences =
+        await SharedPreferences.getInstance();
+    var urlApi = apiUrl.URl;
+    var api = Uri.parse('${urlApi}/login');
+    var response = await http.post(
+      api,
+      body: {
+        'email': userController.text,
+        'senha': passwordController.text,
+      },
+    );
+    if (response.statusCode == 201) {
+      return true;
+    } else {
+      print(jsonDecode(response.body));
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,19 +53,21 @@ class Login extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const TextField(
-                              decoration: InputDecoration(
+                            TextField(
+                              controller: userController,
+                              decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
                                 hintText: "USUARIO:",
                                 isDense: true,
                               ),
                               keyboardType: TextInputType.emailAddress,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 16,
                             ),
                             TextField(
-                              decoration: InputDecoration(
+                              controller: passwordController,
+                              decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
                                 hintText: 'SENHA:',
                                 isDense: true,
@@ -48,7 +79,7 @@ class Login extends StatelessWidget {
                             const SizedBox(
                               height: 16,
                             ),
-                            Divider(
+                            const Divider(
                               color: Color.fromARGB(255, 143, 143, 143),
                             ),
                             ElevatedButton(
@@ -56,9 +87,15 @@ class Login extends StatelessWidget {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Login()));
+                                          builder: (context) =>
+                                              const Anuncio()));
+                                  if (entrar != null) {
+                                    print('ok');
+                                  } else {
+                                    print('errado');
+                                  }
                                 },
-                                child: Text("Entrar"))
+                                child: const Text("Entrar"))
                           ],
                         ),
                       ))),
