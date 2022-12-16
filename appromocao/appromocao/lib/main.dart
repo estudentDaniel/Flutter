@@ -3,7 +3,7 @@ import 'package:appromocao/login.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
