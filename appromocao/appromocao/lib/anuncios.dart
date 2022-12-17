@@ -31,8 +31,7 @@ class _AnuncioState extends State<Anuncio> {
     });
 
     if (response.statusCode == 200) {
-      // List tarefa = json.decode(response.body);
-      List<Map> dadosTask = await json.decode(response.body);
+      List dadosTask = await json.decode(response.body);
       dadosTask.forEach((element) {
         _list.add(task.fromMap(element));
       });
@@ -56,74 +55,51 @@ class _AnuncioState extends State<Anuncio> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Anuncio"),
-      ),
-
-      body: FutureBuilder<List<task>>(
-        future: getAll(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return ListView.separated(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  final item = snapshot.data![index];
-
-                  return Dismissible(
-                    key: Key(item.id[index]),
-                    onDismissed: (DismissDirection dir) async {
-                      if (dir == DismissDirection.startToEnd) {}
-                    },
-                    background: Container(
-                      color: Color.fromARGB(255, 49, 151, 240),
-                      alignment: Alignment.centerLeft,
-                      child: const Icon(Icons.update),
+        appBar: AppBar(
+          title: Text("Anuncio"),
+        ),
+        body: ListView.separated(
+            itemBuilder: (context, position) {
+              task item = _list[position];
+              return Dismissible(
+                key: UniqueKey(),
+                background: Container(
+                  color: Color.fromARGB(255, 73, 163, 248),
+                ),
+                secondaryBackground: Container(
+                  color: Colors.blue,
+                  child: const Align(
+                    alignment: Alignment(0.9, 0.0),
+                    child: Icon(
+                      Icons.edit,
+                      color: Colors.white,
                     ),
-                    secondaryBackground: Container(
-                      color: Colors.red,
-                      alignment: Alignment.centerRight,
-                      child: const Icon(Icons.delete),
-                    ),
-                    child: ListTile(
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      title: Text(item.id),
-                    ),
-                  );
+                  ),
+                ),
+                onDismissed: (direction) {
+                  if (direction == DismissDirection.endToStart) {
+                    setState(() {
+                      _list.removeAt(position);
+                      _list.insert(position, item);
+                    });
+                  }
                 },
-                separatorBuilder: (context, index) {
-                  return const Divider();
-                });
-          } else if (snapshot.hasError) {
-            return const Center(
-              child: Text('quebrou'),
-            );
-          }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      ),
-
-      // body: FutureBuilder<List>(
-      //     future: obterAnuncio(),
-      //     builder: (context, snapshot) {
-      //       return ListView.builder(
-      //           itemCount: snapshot.data!.length,
-      //           itemBuilder: (context, index) {
-      //             if (snapshot.hasData) {
-      //               return ListTile(
-      //                 title: Text(snapshot.data![index].id),
-      //               );
-      //             } else if (snapshot.hasError) {
-      //               print("Quebrou aqui");
-      //             }
-      //             return CircularProgressIndicator();
-      //           });
-      //     })
-    );
+                child: ListTile(
+                  title: Text(
+                    _list[position].id,
+                    style: TextStyle(
+                      color: Colors.green,
+                    ),
+                  ),
+                  onTap: () async {
+                    setState(() {});
+                  },
+                  onLongPress: () async {},
+                ),
+                confirmDismiss: (direction) async {},
+              );
+            },
+            separatorBuilder: (context, index) => Divider(),
+            itemCount: _list.length));
   }
 }
