@@ -1,3 +1,4 @@
+import 'package:appromocao/anuncios.dart';
 import 'package:appromocao/cadastro.dart';
 import 'package:appromocao/login.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         scaffoldBackgroundColor: Color.fromARGB(255, 234, 242, 248),
       ),
-      home: Cadastro(),
+      home: Login(),
     );
   }
 }

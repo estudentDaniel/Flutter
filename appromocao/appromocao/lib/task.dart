@@ -1,8 +1,8 @@
 class task {
-  late String id;
-  late String titulo;
-  late String descricao;
-  late double preco;
+  String id;
+  String titulo;
+  String descricao;
+  double preco;
 
   task(
       {required this.id,
@@ -10,27 +10,17 @@ class task {
       required this.descricao,
       required this.preco}); //constructor
 
-  task.fromMap(Map map) {
-    //busca banco
-    id = map[id];
-    titulo = map[titulo];
-    descricao = map[descricao];
-    preco = map[preco];
-  }
-  Map<String, dynamic> toMap() {
-    Map<String, dynamic> map = {
-      'id': id,
-      'titulo': titulo,
-      'descricao': descricao,
-      'preco': preco
-    };
-    return map;
-  }
+  factory task.fromJson(Map<String, dynamic> map) => task(
+        id: map['id'],
+        titulo: map['titulo'],
+        descricao: map['descricao'],
+        preco: map['preco'],
+      );
+  Map<String, dynamic> toMap() =>
+      {"id": id, "titulo": titulo, "descricao": descricao, "preco": preco};
 
   @override
   String toString() {
     return "Task(id: $id, titulo: $titulo, descricao: $descricao, preco: $preco";
   }
-
-  void then(Set<void> Function(dynamic data) param0) {}
 }

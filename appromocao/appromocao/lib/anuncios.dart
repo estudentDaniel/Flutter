@@ -20,26 +20,22 @@ class _AnuncioState extends State<Anuncio> {
 
   Future<List<task>> getAll() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<task> tasks = List.empty(growable: true);
-
     var token = prefs.getString('token');
     var urlApi = apiUrl.URl;
-    var api = Uri.parse('${urlApi}/anuncios');
+
+    var api = Uri.parse('${urlApi}/anuncios/');
     var response = await http.get(api, headers: {
       'Accept': 'application/json',
       'Authorization': '$token',
     });
-
+    List<task> _lists = List<task>.empty(growable: true);
     if (response.statusCode == 200) {
-      List dadosTask = await json.decode(response.body);
-      dadosTask.forEach((element) {
-        _list.add(task.fromMap(element));
+      List lista = jsonDecode(response.body);
+      lista.forEach((Element) {
+        _list.add(task.fromJson(Element));
       });
-      // for (Map task in dadosTask) {
-      //   tasks.add(task.fromMap(task));
-      // }
     }
-    return tasks;
+    return _list;
   }
 
   @override
@@ -55,51 +51,57 @@ class _AnuncioState extends State<Anuncio> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Anuncio"),
-        ),
-        body: ListView.separated(
-            itemBuilder: (context, position) {
-              task item = _list[position];
-              return Dismissible(
-                key: UniqueKey(),
-                background: Container(
-                  color: Color.fromARGB(255, 73, 163, 248),
-                ),
-                secondaryBackground: Container(
-                  color: Colors.blue,
-                  child: const Align(
-                    alignment: Alignment(0.9, 0.0),
-                    child: Icon(
-                      Icons.edit,
-                      color: Colors.white,
+      appBar: AppBar(
+        title: Text("Anuncio"),
+      ),
+      body: FutureBuilder(
+        future: getAll(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView.separated(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  final item = snapshot.data![index];
+
+                  return Dismissible(
+                    key: Key(item.id[index]),
+                    onDismissed: (DismissDirection dir) async {},
+                    background: Container(
+                      color: Color.fromARGB(255, 49, 151, 240),
+                      alignment: Alignment.centerLeft,
                     ),
-                  ),
-                ),
-                onDismissed: (direction) {
-                  if (direction == DismissDirection.endToStart) {
-                    setState(() {
-                      _list.removeAt(position);
-                      _list.insert(position, item);
-                    });
-                  }
+                    secondaryBackground: Container(
+                      color: Colors.red,
+                      alignment: Alignment.centerRight,
+                    ),
+                    child: ListTile(
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      title: Text(item.id),
+                    ),
+                  );
                 },
-                child: ListTile(
-                  title: Text(
-                    _list[position].id,
-                    style: TextStyle(
-                      color: Colors.green,
-                    ),
-                  ),
-                  onTap: () async {
-                    setState(() {});
-                  },
-                  onLongPress: () async {},
-                ),
-                confirmDismiss: (direction) async {},
-              );
-            },
-            separatorBuilder: (context, index) => Divider(),
-            itemCount: _list.length));
+                separatorBuilder: (context, index) {
+                  return const Divider();
+                });
+          } else if (snapshot.hasError) {
+            return const Center(
+              child: Text('quebrou aqui'),
+            );
+          }
+          ElevatedButton(
+              onPressed: () {
+                print("item: $getAll()");
+              },
+              child: Text("mostrar"));
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:appromocao/anuncios.dart';
+import 'package:appromocao/cadastro.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -55,6 +56,7 @@ class Login extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            Container(),
                             TextField(
                               controller: userController,
                               decoration: const InputDecoration(
@@ -85,20 +87,31 @@ class Login extends StatelessWidget {
                               color: Color.fromARGB(255, 143, 143, 143),
                             ),
                             ElevatedButton(
-                                onPressed: () async {
-                                  bool response = await entrar();
+                              onPressed: () async {
+                                bool response = await entrar();
 
-                                  if (response) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const Anuncio()));
-                                  } else {
-                                    print('errado');
-                                  }
-                                },
-                                child: const Text("Entrar"))
+                                if (response) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const Anuncio()));
+                                } else {
+                                  print('errado');
+                                }
+                              },
+                              child: const Text("Entrar"),
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                MaterialPageRoute(
+                                    builder: (_) => const Cadastro());
+                              },
+                              child: Text("Cadastre-se"),
+                            )
                           ],
                         ),
                       ))),
