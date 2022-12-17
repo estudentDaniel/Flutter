@@ -21,6 +21,6 @@ class task {
 
   @override
   String toString() {
-    return "Task(id: $id, titulo: $titulo, descricao: $descricao, preco: $preco";
+    return "task(id: $id, titulo: $titulo, descricao: $descricao, preco: $preco";
   }
 }

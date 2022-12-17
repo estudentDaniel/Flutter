@@ -61,7 +61,7 @@ class _AnuncioState extends State<Anuncio> {
             return ListView.separated(
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
-                  final item = snapshot.data![index];
+                  var item = snapshot.data![index];
 
                   return Dismissible(
                     key: Key(item.id[index]),
@@ -92,11 +92,7 @@ class _AnuncioState extends State<Anuncio> {
               child: Text('quebrou aqui'),
             );
           }
-          ElevatedButton(
-              onPressed: () {
-                print("item: $getAll()");
-              },
-              child: Text("mostrar"));
+
           return const Center(
             child: CircularProgressIndicator(),
           );
