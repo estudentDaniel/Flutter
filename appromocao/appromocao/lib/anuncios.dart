@@ -51,7 +51,7 @@ class _AnuncioState extends State<Anuncio> {
                           Radius.circular(10),
                         ),
                       ),
-                      title: Text(list[index].titulo!),
+                      title: Text(list[index].id),
                     ),
                   );
                 },

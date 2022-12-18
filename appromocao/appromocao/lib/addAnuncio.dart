@@ -98,6 +98,11 @@ class _AddAnuncioState extends State<AddAnuncio> {
                         preco: p);
                     list.add(tasks);
                     Navigator.pop(context, task);
+                    print('$list');
+                    print('$titulo');
+                    print('$descricao');
+                    print('$preco');
+                    print('$tasks');
 
                     //MaterialPageRoute(builder: ((context) => Anuncio()));
                   },

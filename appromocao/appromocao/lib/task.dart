@@ -1,8 +1,5 @@
 import 'dart:convert';
 
-task addfromJson(String str) => task.fromJson(json.decode(str));
-String toJson(task data) => json.encode(data.toMap());
-
 class task {
   String id;
   String titulo;
@@ -24,3 +21,6 @@ class task {
   Map<String, dynamic> toMap() =>
       {"id": id, "titulo": titulo, "descricao": descricao, "preco": preco};
 }
+
+task addfromJson(String str) => task.fromJson(json.decode(str));
+String toJson(task data) => json.encode(data.toMap());
