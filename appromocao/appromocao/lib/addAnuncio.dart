@@ -24,12 +24,13 @@ class _AddAnuncioState extends State<AddAnuncio> {
 
   void initState() {
     super.initState();
-
-    setState(() {
-      titulo.text = titulo.text;
-      descricao.text = descricao.text;
-      preco.text = preco.text;
-    });
+    if (task != null) {
+      setState(() {
+        titulo.text = titulo.text;
+        descricao.text = descricao.text;
+        preco.text = preco.text;
+      });
+    }
   }
 
   @override
@@ -39,96 +40,100 @@ class _AddAnuncioState extends State<AddAnuncio> {
       appBar: AppBar(
         title: Text("Cadastro"),
       ),
-      body: Column(children: [
-        TextFormField(
-          controller: titulo,
-          decoration: const InputDecoration(
-            label: Text(
-              "Titulo",
-              style: TextStyle(
-                color: Colors.blue,
-                fontSize: 12,
-              ),
-            ),
-            labelStyle: TextStyle(fontSize: 20),
-          ),
-        ),
-        TextFormField(
-          controller: descricao,
-          decoration: const InputDecoration(
-            label: Text(
-              "descricao",
-              style: TextStyle(
-                color: Colors.blue,
-                fontSize: 12,
-              ),
-            ),
-            labelStyle: TextStyle(fontSize: 20),
-          ),
-        ),
-        TextFormField(
-          controller: preco,
-          decoration: const InputDecoration(
-            label: Text(
-              "preco",
-              style: TextStyle(
-                color: Colors.blue,
-                fontSize: 12,
-              ),
-            ),
-            labelStyle: TextStyle(fontSize: 20),
-          ),
-        ),
-        Padding(padding: EdgeInsets.all(8)),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(padding: EdgeInsets.all(8)),
-            SizedBox(
-              width: 150,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () async {
-                  bool value = await adicionar();
-                  if (value) {
-                    setState(() {
-                      _list = getAll() as List<task>;
-                    });
-
-                    task tasks = new task(
-                        id: "",
-                        titulo: titulo.text,
-                        descricao: descricao.text,
-                        preco: 0.0);
-                    Navigator.pop(context, tasks);
-                    //MaterialPageRoute(builder: ((context) => Anuncio()));
-                  }
-                },
-                child: Text("Adicionar"),
-              ),
-            ),
-            Padding(padding: EdgeInsets.all(8)),
-            SizedBox(
-              width: 150,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) =>
-                              Anuncio())) //volta para tela anterior
-                      )
-                },
-                child: Text("Cancelar"),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll<Color>(Colors.red),
+      body: Padding(
+        padding: EdgeInsets.all(15),
+        child: Column(children: [
+          TextFormField(
+            controller: titulo,
+            decoration: const InputDecoration(
+              label: Text(
+                "Titulo",
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 12,
                 ),
               ),
+              labelStyle: TextStyle(fontSize: 20),
             ),
-          ],
-        ),
-      ]),
+          ),
+          TextFormField(
+            controller: descricao,
+            decoration: const InputDecoration(
+              label: Text(
+                "Descricao",
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 12,
+                ),
+              ),
+              labelStyle: TextStyle(fontSize: 20),
+            ),
+          ),
+          TextFormField(
+            controller: preco,
+            decoration: const InputDecoration(
+              label: Text(
+                "Preco",
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 12,
+                ),
+              ),
+              labelStyle: TextStyle(fontSize: 20),
+            ),
+          ),
+          Padding(padding: EdgeInsets.all(8)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(padding: EdgeInsets.all(8)),
+              SizedBox(
+                width: 150,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    bool value = await adicionar();
+                    if (value) {
+                      setState(() {
+                        _list = getAll() as List<task>;
+                      });
+
+                      task tasks = new task(
+                          id: "",
+                          titulo: titulo.text,
+                          descricao: descricao.text,
+                          preco: 0.0);
+                      Navigator.pop(context, tasks);
+                      MaterialPageRoute(builder: ((context) => Anuncio()));
+                    }
+                  },
+                  child: Text("Adicionar"),
+                ),
+              ),
+              Padding(padding: EdgeInsets.all(8)),
+              SizedBox(
+                width: 150,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () => {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) =>
+                                Anuncio())) //volta para tela anterior
+                        )
+                  },
+                  child: Text("Cancelar"),
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll<Color>(Colors.red),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ]),
+      ),
     );
   }
 

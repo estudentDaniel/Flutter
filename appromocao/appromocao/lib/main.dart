@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         scaffoldBackgroundColor: Color.fromARGB(255, 234, 242, 248),
       ),
-      home: Login(),
+      home: AddAnuncio(),
     );
   }
 }

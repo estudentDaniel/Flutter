@@ -107,8 +107,10 @@ class Login extends StatelessWidget {
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                MaterialPageRoute(
-                                    builder: (_) => const Cadastro());
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => const Cadastro()));
                               },
                               child: Text("Cadastre-se"),
                             )
