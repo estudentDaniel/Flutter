@@ -22,58 +22,13 @@ class _AddAnuncioState extends State<AddAnuncio> {
   final TextEditingController descricao = new TextEditingController();
   final TextEditingController preco = new TextEditingController();
 
-  String nome = "";
-
-  Future<List<task>> getAll() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString('token');
-    var urlApi = apiUrl.URl;
-
-    var api = Uri.parse('${urlApi}/anuncios/');
-    var response = await http.get(api, headers: {
-      'Accept': 'application/json',
-      'Authorization': '$token',
-    });
-    List<task> _lists = List<task>.empty(growable: true);
-    if (response.statusCode == 200) {
-      List lista = jsonDecode(response.body);
-      lista.forEach((Element) {
-        _list.add(task.fromJson(Element));
-      });
-    }
-    return _list;
-  }
-
-  late Future<List<task>> list;
-  List<task> _list = List<task>.empty(growable: true);
-
-  Future<bool> adicionar() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var token = sharedPreferences.getString('token');
-    var urlApi = apiUrl.URl;
-
-    var api = Uri.parse('${urlApi}/anuncios/');
-    var response = await http.post(api, headers: {
-      'Authorization': '$token',
-    });
-
-    if (response.statusCode == 201) {
-      print(jsonDecode(response.body));
-
-      return true;
-    } else {
-      print(jsonDecode(response.body));
-      return false;
-    }
-  }
-
   void initState() {
     super.initState();
 
     setState(() {
       titulo.text = titulo.text;
       descricao.text = descricao.text;
-      //double newPreco = double.parse(preco.text);
+      preco.text = preco.text;
     });
   }
 
@@ -138,14 +93,15 @@ class _AddAnuncioState extends State<AddAnuncio> {
                   if (value) {
                     setState(() {
                       _list = getAll() as List<task>;
-                      task t = new task(
-                          id: "",
-                          titulo: titulo.text,
-                          descricao: descricao.text,
-                          preco: 0.0);
                     });
 
-                    MaterialPageRoute(builder: ((context) => Anuncio()));
+                    task tasks = new task(
+                        id: "",
+                        titulo: titulo.text,
+                        descricao: descricao.text,
+                        preco: 0.0);
+                    Navigator.pop(context, tasks);
+                    //MaterialPageRoute(builder: ((context) => Anuncio()));
                   }
                 },
                 child: Text("Adicionar"),
@@ -174,5 +130,48 @@ class _AddAnuncioState extends State<AddAnuncio> {
         ),
       ]),
     );
+  }
+
+  Future<List<task>> getAll() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    var urlApi = apiUrl.URl;
+
+    var api = Uri.parse('${urlApi}/anuncios/');
+    var response = await http.get(api, headers: {
+      'Accept': 'application/json',
+      'Authorization': '$token',
+    });
+    List<task> _lists = List<task>.empty(growable: true);
+    if (response.statusCode == 200) {
+      List lista = jsonDecode(response.body);
+      lista.forEach((Element) {
+        _list.add(task.fromJson(Element));
+      });
+    }
+    return _list;
+  }
+
+  late Future<List<task>> list;
+  List<task> _list = List<task>.empty(growable: true);
+
+  Future<bool> adicionar() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var token = sharedPreferences.getString('token');
+    var urlApi = apiUrl.URl;
+
+    var api = Uri.parse('${urlApi}/anuncios/');
+    var response = await http.post(api, headers: {
+      'Authorization': '$token',
+    });
+
+    if (response.statusCode == 201) {
+      print(jsonDecode(response.body));
+
+      return true;
+    } else {
+      print(jsonDecode(response.body));
+      return false;
+    }
   }
 }
