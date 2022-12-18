@@ -1,3 +1,4 @@
+import 'package:appromocao/addAnuncio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'UrlAPi.dart' as apiUrl;
 import 'package:flutter/material.dart';
@@ -118,7 +119,14 @@ class _AnuncioState extends State<Anuncio> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {}),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: ((context) => AddAnuncio())) //volta para tela anterior
+            );
+        Icon(Icons.add);
+      }),
     );
   }
 }

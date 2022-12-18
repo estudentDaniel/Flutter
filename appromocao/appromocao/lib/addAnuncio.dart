@@ -1,6 +1,4 @@
-//import 'dart:io';
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'UrlAPi.dart' as apiUrl;
 import 'package:flutter/material.dart';
@@ -13,8 +11,8 @@ import 'task.dart';
 
 class AddAnuncio extends StatefulWidget {
   // Cadastro({super.key});
-  // task tarefa;
-  // late AddAnuncio();
+  task? tarefa;
+  AddAnuncio({this.tarefa});
   @override
   State<AddAnuncio> createState() => _AddAnuncioState();
 }
@@ -75,7 +73,7 @@ class _AddAnuncioState extends State<AddAnuncio> {
     setState(() {
       titulo.text = titulo.text;
       descricao.text = descricao.text;
-      double newPreco = double.parse(preco.text);
+      //double newPreco = double.parse(preco.text);
     });
   }
 
@@ -140,7 +138,13 @@ class _AddAnuncioState extends State<AddAnuncio> {
                   if (value) {
                     setState(() {
                       _list = getAll() as List<task>;
+                      task t = new task(
+                          id: "",
+                          titulo: titulo.text,
+                          descricao: descricao.text,
+                          preco: 0.0);
                     });
+
                     MaterialPageRoute(builder: ((context) => Anuncio()));
                   }
                 },
