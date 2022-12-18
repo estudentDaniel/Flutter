@@ -96,8 +96,8 @@ class _AddAnuncioState extends State<AddAnuncio> {
                         titulo: titulo.text,
                         descricao: descricao.text,
                         preco: p);
-
-                    Navigator.pop(context, tasks);
+                    list.add(tasks);
+                    Navigator.pop(context, task);
 
                     //MaterialPageRoute(builder: ((context) => Anuncio()));
                   },
