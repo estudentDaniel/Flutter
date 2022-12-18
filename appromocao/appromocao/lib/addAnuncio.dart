@@ -24,6 +24,28 @@ class _AddAnuncioState extends State<AddAnuncio> {
   final TextEditingController descricao = new TextEditingController();
   TextEditingController preco = new TextEditingController();
 
+  Future<bool> postar() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var urlApi = apiUrl.URl;
+    var api = Uri.parse('${urlApi}/usuario/');
+    var response = await http.post(
+      api,
+      body: {
+        'titulo': titulo.text,
+        'descricao': descricao.text,
+        'preco': preco.text,
+      },
+    );
+    if (response.statusCode == 200) {
+      var res = jsonDecode(response.body);
+      prefs.setString('token', res['token']);
+      return true;
+    } else {
+      print(jsonDecode(response.body));
+      return false;
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -98,11 +120,6 @@ class _AddAnuncioState extends State<AddAnuncio> {
                         preco: p);
                     list.add(tasks);
                     Navigator.pop(context, task);
-                    print('$list');
-                    print('$titulo');
-                    print('$descricao');
-                    print('$preco');
-                    print('$tasks');
 
                     //MaterialPageRoute(builder: ((context) => Anuncio()));
                   },
