@@ -3,7 +3,6 @@ import 'UrlAPi.dart' as apiUrl;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'task.dart';
 
 class Anuncio extends StatefulWidget {
@@ -17,7 +16,7 @@ class _AnuncioState extends State<Anuncio> {
   late Future<List<task>> list;
 
   List<task> _list = List<task>.empty(growable: true);
-
+//--------------------------------------------------------------
   Future<List<task>> getAll() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
@@ -36,6 +35,27 @@ class _AnuncioState extends State<Anuncio> {
       });
     }
     return _list;
+  }
+
+//------------------------------------------------------------------------
+  Future<bool> adicionar() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var token = sharedPreferences.getString('token');
+    var urlApi = apiUrl.URl;
+
+    var api = Uri.parse('${urlApi}/anuncios/');
+    var response = await http.post(api, headers: {
+      'Authorization': '$token',
+    });
+
+    if (response.statusCode == 201) {
+      print(jsonDecode(response.body));
+
+      return true;
+    } else {
+      print(jsonDecode(response.body));
+      return false;
+    }
   }
 
   @override
@@ -98,6 +118,7 @@ class _AnuncioState extends State<Anuncio> {
           );
         },
       ),
+      floatingActionButton: FloatingActionButton(onPressed: () {}),
     );
   }
 }
