@@ -16,7 +16,6 @@ class Anuncio extends StatefulWidget {
 class _AnuncioState extends State<Anuncio> {
   late Future<List<task>> list;
 
-  List<task> _list = List<task>.empty(growable: true);
 //--------------------------------------------------------------
   Future<List<task>> getAll() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -28,14 +27,15 @@ class _AnuncioState extends State<Anuncio> {
       'Accept': 'application/json',
       'Authorization': '$token',
     });
-    List<task> _lists = List<task>.empty(growable: true);
+
+    List<task> _list = List<task>.empty(growable: true);
     if (response.statusCode == 200) {
       List lista = jsonDecode(response.body);
       lista.forEach((Element) {
         _list.add(task.fromJson(Element));
       });
     }
-    return _list;
+    return list;
   }
 
 //------------------------------------------------------------------------
@@ -60,14 +60,20 @@ class _AnuncioState extends State<Anuncio> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    getAll().then((data) => {
-          setState(() {
-            _list = data;
-          })
-        });
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    list = getAll();
   }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   getAll().then((data) => {
+  //         setState(() {
+  //           list = data;
+  //         })
+  //       });
+  // }
 
   @override
   Widget build(BuildContext context) {

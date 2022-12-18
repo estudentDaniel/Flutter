@@ -10,28 +10,34 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'task.dart';
 
 class AddAnuncio extends StatefulWidget {
-  // Cadastro({super.key});
   task? tarefa;
   AddAnuncio({this.tarefa});
+
   @override
   State<AddAnuncio> createState() => _AddAnuncioState();
 }
 
 class _AddAnuncioState extends State<AddAnuncio> {
+  late Future<List<task>> list;
   final TextEditingController titulo = new TextEditingController();
   final TextEditingController descricao = new TextEditingController();
   final TextEditingController preco = new TextEditingController();
 
-  void initState() {
-    super.initState();
-    if (task != null) {
-      setState(() {
-        titulo.text = titulo.text;
-        descricao.text = descricao.text;
-        preco.text = preco.text;
-      });
-    }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    list = getAll();
   }
+  // void initState() {
+  //   super.initState();
+  //   if (task != null) {
+  //     setState(() {
+  //       titulo.text = titulo.text;
+  //       descricao.text = descricao.text;
+  //       preco.text = preco.text;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -94,17 +100,19 @@ class _AddAnuncioState extends State<AddAnuncio> {
                   onPressed: () async {
                     bool value = await adicionar();
                     if (value) {
-                      setState(() {
-                        _list = getAll() as List<task>;
-                      });
-
-                      task tasks = new task(
+                      task tasks = task(
                           id: "",
                           titulo: titulo.text,
                           descricao: descricao.text,
                           preco: 0.0);
+
                       Navigator.pop(context, tasks);
-                      MaterialPageRoute(builder: ((context) => Anuncio()));
+
+                      setState(() {
+                        bool list = adicionar() as bool;
+                      });
+
+                      // MaterialPageRoute(builder: ((context) => Anuncio()));
                     }
                   },
                   child: Text("Adicionar"),
@@ -147,25 +155,24 @@ class _AddAnuncioState extends State<AddAnuncio> {
       'Accept': 'application/json',
       'Authorization': '$token',
     });
-    List<task> _lists = List<task>.empty(growable: true);
+    List<task> list = List<task>.empty(growable: true);
     if (response.statusCode == 200) {
       List lista = jsonDecode(response.body);
       lista.forEach((Element) {
-        _list.add(task.fromJson(Element));
+        list.add(task.fromJson(Element));
       });
     }
-    return _list;
+    return list;
   }
 
-  late Future<List<task>> list;
-  List<task> _list = List<task>.empty(growable: true);
+  // List<task> list = List<task>.empty(growable: true);
 
   Future<bool> adicionar() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var token = sharedPreferences.getString('token');
     var urlApi = apiUrl.URl;
 
-    var api = Uri.parse('${urlApi}/anuncios/');
+    var api = Uri.parse('$urlApi/anuncios/');
     var response = await http.post(api, headers: {
       'Authorization': '$token',
     });

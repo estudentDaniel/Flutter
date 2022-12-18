@@ -1,8 +1,8 @@
 class task {
   String id;
-  String titulo;
-  String descricao;
-  double preco;
+  String? titulo;
+  String? descricao;
+  double? preco;
 
   task(
       {required this.id,
@@ -19,8 +19,8 @@ class task {
   Map<String, dynamic> toMap() =>
       {"id": id, "titulo": titulo, "descricao": descricao, "preco": preco};
 
-  @override
-  String toString() {
-    return "task(id: $id, titulo: $titulo, descricao: $descricao, preco: $preco";
-  }
+  // @override
+  // String toString() {
+  //   return "task(id: $id, titulo: $titulo, descricao: $descricao, preco: $preco";
+  // }
 }
