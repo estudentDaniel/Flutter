@@ -18,26 +18,18 @@ class AddAnuncio extends StatefulWidget {
 }
 
 class _AddAnuncioState extends State<AddAnuncio> {
-  late Future<List<task>> list;
+  // late Future<List<task>> list;
+  List<task> list = List<task>.empty(growable: true);
   final TextEditingController titulo = new TextEditingController();
   final TextEditingController descricao = new TextEditingController();
-  final TextEditingController preco = new TextEditingController();
+  TextEditingController preco = new TextEditingController();
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    list = getAll();
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {});
   }
-  // void initState() {
-  //   super.initState();
-  //   if (task != null) {
-  //     setState(() {
-  //       titulo.text = titulo.text;
-  //       descricao.text = descricao.text;
-  //       preco.text = preco.text;
-  //     });
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -98,22 +90,16 @@ class _AddAnuncioState extends State<AddAnuncio> {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () async {
-                    bool value = await adicionar();
-                    if (value) {
-                      task tasks = task(
-                          id: "",
-                          titulo: titulo.text,
-                          descricao: descricao.text,
-                          preco: 0.0);
+                    double p = (double.parse(preco.text));
+                    task tasks = task(
+                        id: '',
+                        titulo: titulo.text,
+                        descricao: descricao.text,
+                        preco: p);
 
-                      Navigator.pop(context, tasks);
+                    Navigator.pop(context, tasks);
 
-                      setState(() {
-                        bool list = adicionar() as bool;
-                      });
-
-                      // MaterialPageRoute(builder: ((context) => Anuncio()));
-                    }
+                    //MaterialPageRoute(builder: ((context) => Anuncio()));
                   },
                   child: Text("Adicionar"),
                 ),
@@ -124,15 +110,11 @@ class _AddAnuncioState extends State<AddAnuncio> {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () => {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) =>
-                                Anuncio())) //volta para tela anterior
-                        )
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: ((context) => Anuncio())))
                   },
                   child: Text("Cancelar"),
-                  style: ButtonStyle(
+                  style: const ButtonStyle(
                     backgroundColor:
                         MaterialStatePropertyAll<Color>(Colors.red),
                   ),
@@ -143,47 +125,5 @@ class _AddAnuncioState extends State<AddAnuncio> {
         ]),
       ),
     );
-  }
-
-  Future<List<task>> getAll() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString('token');
-    var urlApi = apiUrl.URl;
-
-    var api = Uri.parse('${urlApi}/anuncios/');
-    var response = await http.get(api, headers: {
-      'Accept': 'application/json',
-      'Authorization': '$token',
-    });
-    List<task> list = List<task>.empty(growable: true);
-    if (response.statusCode == 200) {
-      List lista = jsonDecode(response.body);
-      lista.forEach((Element) {
-        list.add(task.fromJson(Element));
-      });
-    }
-    return list;
-  }
-
-  // List<task> list = List<task>.empty(growable: true);
-
-  Future<bool> adicionar() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var token = sharedPreferences.getString('token');
-    var urlApi = apiUrl.URl;
-
-    var api = Uri.parse('$urlApi/anuncios/');
-    var response = await http.post(api, headers: {
-      'Authorization': '$token',
-    });
-
-    if (response.statusCode == 201) {
-      print(jsonDecode(response.body));
-
-      return true;
-    } else {
-      print(jsonDecode(response.body));
-      return false;
-    }
   }
 }

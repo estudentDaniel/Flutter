@@ -1,4 +1,5 @@
 import 'package:appromocao/addAnuncio.dart';
+import 'package:appromocao/metodos.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'UrlAPi.dart' as apiUrl;
 import 'package:flutter/material.dart';
@@ -14,84 +15,27 @@ class Anuncio extends StatefulWidget {
 }
 
 class _AnuncioState extends State<Anuncio> {
-  late Future<List<task>> list;
-
-//--------------------------------------------------------------
-  Future<List<task>> getAll() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString('token');
-    var urlApi = apiUrl.URl;
-
-    var api = Uri.parse('${urlApi}/anuncios/');
-    var response = await http.get(api, headers: {
-      'Accept': 'application/json',
-      'Authorization': '$token',
-    });
-
-    List<task> _list = List<task>.empty(growable: true);
-    if (response.statusCode == 200) {
-      List lista = jsonDecode(response.body);
-      lista.forEach((Element) {
-        _list.add(task.fromJson(Element));
-      });
-    }
-    return list;
-  }
-
-//------------------------------------------------------------------------
-  Future<bool> adicionar() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var token = sharedPreferences.getString('token');
-    var urlApi = apiUrl.URl;
-
-    var api = Uri.parse('${urlApi}/anuncios/');
-    var response = await http.post(api, headers: {
-      'Authorization': '$token',
-    });
-
-    if (response.statusCode == 201) {
-      print(jsonDecode(response.body));
-
-      return true;
-    } else {
-      print(jsonDecode(response.body));
-      return false;
-    }
-  }
-
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    list = getAll();
-  }
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   getAll().then((data) => {
-  //         setState(() {
-  //           list = data;
-  //         })
-  //       });
-  // }
+  final Methods m = Methods();
+  List<task> list = List<task>.empty(growable: true);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Anuncio"),
+        title: const Text("Anuncio"),
+        centerTitle: true,
       ),
       body: FutureBuilder(
-        future: getAll(),
+        future: m.getAll(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return ListView.separated(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  var item = snapshot.data![index];
+            list = snapshot.data!;
 
+            return ListView.separated(
+                itemCount: list.length,
+                itemBuilder: (context, index) {
                   return Dismissible(
-                    key: Key(item.id[index]),
+                    key: UniqueKey(),
                     onDismissed: (DismissDirection dir) async {},
                     background: Container(
                       color: Color.fromARGB(255, 49, 151, 240),
@@ -107,7 +51,7 @@ class _AnuncioState extends State<Anuncio> {
                           Radius.circular(10),
                         ),
                       ),
-                      title: Text(item.id),
+                      title: Text(list[index].titulo!),
                     ),
                   );
                 },
