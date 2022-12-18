@@ -119,14 +119,16 @@ class _AnuncioState extends State<Anuncio> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: ((context) => AddAnuncio())) //volta para tela anterior
-            );
-        Icon(Icons.add);
-      }),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: ((context) =>
+                        AddAnuncio())) //volta para tela anterior
+                );
+          },
+          child: const Icon(Icons.add)),
     );
   }
 }
